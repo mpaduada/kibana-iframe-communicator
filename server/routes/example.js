@@ -1,4 +1,4 @@
-export default function (server) {
+/*export default function (server) {
 
   server.route({
     path: '/api/kibana_iframe_communicator_plugin/example',
@@ -9,3 +9,4 @@ export default function (server) {
   });
 
 };
+*/

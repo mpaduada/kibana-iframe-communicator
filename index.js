@@ -2,18 +2,13 @@ import exampleRoute from './server/routes/example';
 
 export default function (kibana) {
   return new kibana.Plugin({
-    require: ['elasticsearch'],
+    //require: ['elasticsearch'],
 
-    uiExports: {
-      app: {
-        title: 'Kibana Iframe Communicator Plugin',
-        description: 'A kibana plugin that exposes kibana internals so when kibana is hosted inside an IFrame - an outside application can easliy communicate with kibana internals',
-        main: 'plugins/kibana_iframe_communicator_plugin/app'
-      },
-      hacks: [
+    uiExports: {    
+      visTypes: [
         'plugins/kibana_iframe_communicator_plugin/hack'
       ]
-    },
+    }/*,
 
     config(Joi) {
       return Joi.object({
@@ -24,7 +19,7 @@ export default function (kibana) {
     init(server, options) {
       // Add server routes and initalize the plugin here
       exampleRoute(server);
-    }
+    }*/
 
   });
 };

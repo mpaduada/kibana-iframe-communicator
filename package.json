@@ -1,21 +1,28 @@
 {
   "name": "kibana_iframe_communicator_plugin",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A kibana plugin that exposes kibana internals so when kibana is hosted inside an IFrame - an outside application can easliy communicate with kibana internals",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint",
-    "start": "plugin-helpers start",
-    "test:server": "plugin-helpers test_server",
-    "test:browser": "plugin-helpers test_browser",
-    "build": "plugin-helpers build",
-    "postinstall": "plugin-helpers postinstall"
+    "start": "gulp dev",
+    "build": "gulp build",
+    "package": "gulp package",
+    "test": "gulp test"
   },
   "devDependencies": {
-    "@elastic/eslint-config-kibana": "0.0.2",
-    "babel-eslint": "4.1.8",
-    "eslint": "1.10.3",
-    "eslint-plugin-mocha": "1.1.0",
-    "@elastic/plugin-helpers": "5.0.0-beta1"
+    "babel-core": "^4.1.8",
+    "babel-eslint": "^4.1.8",
+    "bluebird": "^3.2.2",
+    "del": "^2.2.0",
+    "eslint": "^1.10.3",
+    "eslint-plugin-mocha": "^1.1.0",
+    "gulp": "^3.9.0",
+    "gulp-eslint": "^1.1.1",
+    "gulp-gzip": "^1.2.0",
+    "gulp-tar": "^1.8.0",
+    "gulp-util": "^3.0.7",
+    "lodash": "^4.3.0",
+    "mkdirp": "^0.5.1",
+    "rsync": "^0.4.0"
   }
 }
