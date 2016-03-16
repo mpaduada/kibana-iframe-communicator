@@ -23,7 +23,7 @@ uiModules.get('kibana').run(function ($rootScope, $location) {
 
 
 // hook into dashboard kibana lifecycle
-uiModules.get('app/dashboard', ['kibana/courier','ngRoute']).run(function ($rootScope, Private, $location, courier, $route, kbnUrl, getAppState, globalState) {
+uiModules.get('app/dashboard', ['kibana/courier','ngRoute']).run(function ($rootScope, Private, $location, courier, $route, kbnUrl, getAppState, globalState, timefilter) {
   
   
     // parses url
@@ -78,7 +78,11 @@ uiModules.get('app/dashboard', ['kibana/courier','ngRoute']).run(function ($root
                 //localGlobalState
                 localGlobalState.time.from = passedInGlobalState.time.from;
                 localGlobalState.time.mode = passedInGlobalState.time.mode;
-                localGlobalState.time.to = passedInGlobalState.time.to;     
+                localGlobalState.time.to = passedInGlobalState.time.to;  
+                // timefilter:
+                timefilter.time.from = passedInGlobalState.time.from;
+                timefilter.time.mode = passedInGlobalState.time.mode;
+                timefilter.time.to = passedInGlobalState.time.to;
                 
                 indexOfDashSign =  urlData.indexOf("#");
                 finalUri =   urlData.substr(indexOfDashSign+1);
