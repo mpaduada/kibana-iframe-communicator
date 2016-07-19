@@ -42,8 +42,8 @@ So first we need to host a kibana dashboard in an embeded mode. This could be do
 In this mode (make sure "embed" is part of the url query string), only the contents of the dashboard is visible. All of its management capabilities (like adding or removing a dashboard) are not visible - and that's is eaxtly what we wanted - as we just wanted to present the dashboard content to our users.
 The thing is, the date range picker and the serach bar get removed as well. So in our application we added our own date range picker and search bar as we wanted to enable the user to filter and view the dashboard with different date ranges.
 
-So if you look at the embed link of kibana it looks something like the following:
-http://{KIBANA-HOST}/app/kibana#/dashboard/{OPTIONAL-DASHBOARD-NAME}?embed&_g={GLOBAL-STATE-DATA}&_a={APP-STATE-DATA}
+So if you look at the embed link of kibana it should look as following:
+<code>http://{KIBANA-HOST}/app/kibana#/dashboard/{OPTIONAL-DASHBOARD-NAME}?embed&_g={GLOBAL-STATE-DATA}&_a={APP-STATE-DATA}</code>
 
 The OPTIONAL-DASHBOARD-NAME should not be used in my opinion - as it's truly not necessary as all of the dashboard content is already embedded in the url data (and if one day you rename the dashboard, it will stop working when you try to load the page).
 Once again, the "embed" is what makes the KIBANA wrapping (the management part of the dashboard) to disappear - and leave only the content of the dashboard.
@@ -71,8 +71,8 @@ As the postMessage method accepts a message string object, and as we needed to e
 
 In the plugin we currently support two types of actions:
 
-1). <code>routeRequest</code> - switch to a different route inside the kibana web app
-2). <code>searchRequest</code> - internally refresh current displayed dashboard with the provided data
+1. <code>routeRequest</code> - switch to a different route inside the kibana web app
+1. <code>searchRequest</code> - internally refresh current displayed dashboard with the provided data
 
 So assuming myIframe is the IFrame DOM element, you can now ask kibana to switch to a different dashboard by invoking:
 
@@ -93,7 +93,7 @@ The messages from the plugin are formatted the same way ( <code>{ACTION-TYPE}###
 
 Currently, the only message that is sent from the plugin:
 
-1). <code>kibanaUpdateNotification</code> -  when kibana finished updating according to a previous change request
+1. <code>kibanaUpdateNotification</code> -  when kibana finished updating according to a previous change request
 
 
 Usage Example:
