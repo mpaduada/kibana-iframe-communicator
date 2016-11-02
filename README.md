@@ -32,7 +32,7 @@ For more information about any of these commands run `npm run ${task} -- --help`
 
 ## How To Work With This Plugin?
 
-Let's start with a disclaimer - this plugin was build to quickly enable communication (as a temporary solution) between an external app hosting kibana in an embedded mode inside an IFrame and Kibana, so we won't have the refresh the IFrame page on every change triggered by the hosting app. Therefore this code could (or should...) be structured much better, but it's good enough to get started with &#X1f60a
+Let's start with a disclaimer - this plugin was built to quickly enable communication (as a temporary solution) between an external app hosting kibana in an embedded mode inside an IFrame and Kibana, so we won't have the refresh the IFrame page on every change triggered by the hosting app. Therefore this code could (or should...) be structured much better, but it's good enough to get started with &#X1f60a
 
 
 ## Background
