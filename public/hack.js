@@ -47,9 +47,18 @@ uiModules.get('app/dashboard', ['kibana/courier','ngRoute']).run(function ($root
     let eventer = window[eventMethod];
     let messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
 
-    // Listen to message from parent (or any other) window
-    eventer(messageEvent,function(e) {
-        console.log('received message!:  ',e.data);        
+    let lastReceievedData;
+    let startAcceptingEvents = false;
+
+    let eventMessageHandler = function(e) {        
+
+        console.log('received message!:  ',e.data);
+        lastReceievedData = e;
+        if(!startAcceptingEvents)
+        {            
+            console.warn("Ignoring event as we can't accept events yet!");   
+            return;
+        }        
         
         let splitMsg = e.data.split('###');
         if(splitMsg.length != 2)
@@ -66,8 +75,8 @@ uiModules.get('app/dashboard', ['kibana/courier','ngRoute']).run(function ($root
             case "searchRequest": // in case we got a search request:
                 console.log("Search request...")       
                 // parse the app + global states:
-                let passedInAppState = rison.decode(decodeURIComponent(getQueryVariable("_a", urlData)));
-                let passedInGlobalState = rison.decode(decodeURIComponent(getQueryVariable("_g", urlData)));  
+                let passedInAppState = rison.decode(getQueryVariable("_a", urlData));
+                let passedInGlobalState = rison.decode(getQueryVariable("_g", urlData));  
                 
                 // get the local kibana app + global states:
                 let localAppState = getAppState(); 
@@ -116,7 +125,10 @@ uiModules.get('app/dashboard', ['kibana/courier','ngRoute']).run(function ($root
         
         
         
-    },false);
+    };
+
+    // Listen to message from parent (or any other) window
+    eventer(messageEvent, eventMessageHandler, false);
     
     
     $rootScope.$on('$routeUpdate', () => // on route updates
@@ -127,6 +139,47 @@ uiModules.get('app/dashboard', ['kibana/courier','ngRoute']).run(function ($root
             parent.postMessage("kibanaUpdateNotification###" + $location.url() , "*")
         }
     });
+
+   /* $rootScope.$on('$routeUpdate', () => 
+    {
+        console.debug("RECIVED $routeUpdate!")
+    });
+
+     $rootScope.$on('$init:config', () => 
+    {
+        console.debug("RECIVED $init:config!")
+    });
+
+     $rootScope.$on('$locationChangeSuccess', () => 
+    {
+        console.debug("RECIVED $locationChangeSuccess!")
+    });
+    
+    
+     $rootScope.$on('$routeChangeStart', () => 
+    {
+        console.debug("RECIVED $routeChangeStart!")
+    });
+    
+    */
+
+     $rootScope.$on('$routeChangeSuccess', () => 
+    {
+        console.debug("RECIVED $routeChangeSuccess!"); 
+        if(!startAcceptingEvents) // starting to recieve external events (we use this event as it's the last event possible to wait for)
+        {       
+            startAcceptingEvents = true;
+            if(lastReceievedData) // if we have a previous request we haven't taken care of yet - let's take care of it now
+            {
+                setTimeout(() => eventMessageHandler(lastReceievedData), 1000);  // we set a timeout as we must make sure           
+            }
+        }
+    });
+
+    
+
+
+    
   
   // example of how to hook to general key events:
   /*$(document.body).on('keypress', function (event) {
