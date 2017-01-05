@@ -47,12 +47,12 @@ uiModules.get('app/dashboard', ['kibana/courier','ngRoute']).run(function ($root
     let eventer = window[eventMethod];
     let messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
 
-    let lastReceievedData;
+    let lastReceievedData = null;;
     let startAcceptingEvents = false;
 
     let eventMessageHandler = function(e) {        
 
-        console.log('received message!:  ',e.data);
+        console.debug('received message!:  ',e.data);
         lastReceievedData = e;
         if(!startAcceptingEvents)
         {            
@@ -73,7 +73,7 @@ uiModules.get('app/dashboard', ['kibana/courier','ngRoute']).run(function ($root
         switch(topic)
         {
             case "searchRequest": // in case we got a search request:
-                console.log("Search request...")       
+                console.debug("Search request...")       
                 // parse the app + global states:
                 let passedInAppState = rison.decode(getQueryVariable("_a", urlData));
                 let passedInGlobalState = rison.decode(getQueryVariable("_g", urlData));  
@@ -110,7 +110,9 @@ uiModules.get('app/dashboard', ['kibana/courier','ngRoute']).run(function ($root
                 return;
             case "routeRequest": // in case we were requsted to route to a different area:  
                 
-                console.log("Route request...");       
+                console.debug("Route request...");
+                lastReceievedData = null; // make sure we don't trigger the lastReceievedData  in routeChangeSuccess
+                startAcceptingEvents = false; // we stop accepting events (we keep the last request anyways) - as accepting changes while loading a dashboard results in     
                 indexOfDashSign =  urlData.indexOf("#");
                 finalUri =   urlData.substr(indexOfDashSign+1);
                 doNotSendRouteChangeNotificationToParent = true; // we do not want to send to our parent of the change (as he was the one who iniated this...)
@@ -139,8 +141,8 @@ uiModules.get('app/dashboard', ['kibana/courier','ngRoute']).run(function ($root
             parent.postMessage("kibanaUpdateNotification###" + $location.url() , "*")
         }
     });
-
-   /* $rootScope.$on('$routeUpdate', () => 
+/*
+    $rootScope.$on('$routeUpdate', () => 
     {
         console.debug("RECIVED $routeUpdate!")
     });
@@ -159,9 +161,9 @@ uiModules.get('app/dashboard', ['kibana/courier','ngRoute']).run(function ($root
      $rootScope.$on('$routeChangeStart', () => 
     {
         console.debug("RECIVED $routeChangeStart!")
-    });
+    });*/
     
-    */
+    
 
      $rootScope.$on('$routeChangeSuccess', () => 
     {
