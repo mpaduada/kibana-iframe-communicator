@@ -24,5 +24,8 @@
     "lodash": "^4.3.0",
     "mkdirp": "^0.5.1",
     "rsync": "^0.4.0"
+  },
+  "dependencies": {
+    "rison-node": "^1.0.0"
   }
 }
