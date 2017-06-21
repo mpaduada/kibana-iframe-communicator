@@ -1,6 +1,6 @@
 {
   "name": "kibana_iframe_communicator_plugin",
-  "version": "0.0.1",
+  "version": "5.4.1",
   "description": "A kibana plugin that exposes kibana internals so when kibana is hosted inside an IFrame - an outside application can easliy communicate with kibana internals",
   "main": "index.js",
   "scripts": {

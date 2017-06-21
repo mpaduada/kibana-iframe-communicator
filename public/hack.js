@@ -26,8 +26,8 @@ uiModules.get('kibana').run(function ($rootScope, $location) {
 // hook into dashboard kibana lifecycle
 uiModules.get('app/dashboard', ['kibana/courier','ngRoute']).run(function ($rootScope, Private, $location, courier, $route, kbnUrl, getAppState, globalState, timefilter) {
 
-    let kibanaVersion=kibanaConfig.version.split('-')[0];
-    console.log("kibanaVersion:"+Number(kibanaVersion))
+    let kibanaVersion=kibanaConfig.version.split('.')[0];
+   
     // parses url
     function getQueryVariable(variable, query) {        
         let vars = query.split('&');
